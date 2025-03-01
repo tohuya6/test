@@ -104,11 +104,13 @@
                 return;
             }
 
-            // Here, we simulate sending the query to Grok 3 via this chat.
-            // In a real setup, this would involve an API call, but since GitHub Pages is static,
-            // we'll use a placeholder and instruct you to ask me directly here.
+            // Open a new tab with a pre-formatted message to ask Grok 3 in this chat
+            const chatUrl = 'https://chat.grok3.xai/?query=' + encodeURIComponent(query);
+            window.open(chatUrl, '_blank');
+
+            // Clear the input and show a temporary response
             document.querySelector('.chat-input').value = '';
-            document.getElementById('response').innerHTML = 'Please send your query to Grok 3 in this chat (e.g., "' + query + '"), and I’ll provide an explanation. Then, you can manually update this response or refresh the page.';
+            document.getElementById('response').innerHTML = 'I’ve opened a new tab to ask Grok 3 your question. Copy the response from there and paste it here, or use the pop-up if provided.';
         }
     </script>
 </body>
