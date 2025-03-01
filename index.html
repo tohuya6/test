@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Electrostatics Guide</title>
+    <title>Study Guide Viewer</title>
     <style>
         body {
             margin: 0;
@@ -14,22 +14,33 @@
             line-height: 1.6;
             display: flex;
             justify-content: center;
-            align-items: center;
             min-height: 100vh;
         }
-        .pdf-container {
-            max-width: 900px;
+        .container {
+            display: flex;
+            max-width: 1200px;
             width: 100%;
+            margin: 20px auto;
+        }
+        .pdf-container {
+            flex: 2;
             padding: 30px;
             background-color: #ffffff; /* White content area */
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-            overflow: hidden;
+            margin-right: 20px;
         }
         .pdf-viewer {
             width: 100%;
             height: 800px; /* Adjust height as needed */
             border: none;
+        }
+        .chat-container {
+            flex: 1;
+            padding: 30px;
+            background-color: #ffffff; /* White content area */
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
         }
         h1 {
             color: #2c3e50; /* Dark blue for headings */
@@ -39,12 +50,66 @@
             border-bottom: 2px solid #2c3e50;
             padding-bottom: 10px;
         }
+        .chat-input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1.1em;
+        }
+        .chat-button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            background-color: #3498db; /* Blue button */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.1em;
+            cursor: pointer;
+        }
+        .chat-button:hover {
+            background-color: #2980b9; /* Darker blue on hover */
+        }
+        .chat-response {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #eef2f5; /* Light gray for responses */
+            border-radius: 5px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
     </style>
 </head>
 <body>
-    <div class="pdf-container">
-        <h1>Electrostatics Guide</h1>
-        <iframe class="pdf-viewer" src="electrostatics-guide.pdf" type="application/pdf"></iframe>
+    <div class="container">
+        <div class="pdf-container">
+            <h1>Study Guide</h1>
+            <iframe class="pdf-viewer" src="study-guide.pdf" type="application/pdf"></iframe>
+        </div>
+        <div class="chat-container">
+            <h1>Ask Grok 3</h1>
+            <textarea class="chat-input" placeholder="Type your question (e.g., 'Explain line 42' or 'What does sentence 3 on page 2 mean?')" rows="4"></textarea>
+            <button class="chat-button" onclick="sendQuery()">Send</button>
+            <div class="chat-response" id="response"></div>
+        </div>
     </div>
+
+    <script>
+        function sendQuery() {
+            const query = document.querySelector('.chat-input').value;
+            if (query.trim() === '') {
+                alert('Please enter a question!');
+                return;
+            }
+
+            // Here, we simulate sending the query to Grok 3 via this chat.
+            // In a real setup, this would involve an API call, but since GitHub Pages is static,
+            // we'll use a placeholder and instruct you to ask me directly here.
+            document.querySelector('.chat-input').value = '';
+            document.getElementById('response').innerHTML = 'Please send your query to Grok 3 in this chat (e.g., "' + query + '"), and I’ll provide an explanation. Then, you can manually update this response or refresh the page.';
+        }
+    </script>
 </body>
 </html>
