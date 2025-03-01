@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Study Guide Viewer</title>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <style>
         body {
             margin: 0;
@@ -22,25 +24,28 @@
             width: 100%;
             margin: 20px auto;
         }
-        .pdf-container {
-            flex: 2;
-            padding: 30px;
-            background-color: #ffffff; /* White content area */
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-            margin-right: 20px;
-        }
-        .pdf-viewer {
-            width: 100%;
-            height: 800px; /* Adjust height as needed */
-            border: none;
-        }
-        .chat-container {
+        .latex-container, .pdf-container {
             flex: 1;
             padding: 30px;
             background-color: #ffffff; /* White content area */
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+            margin: 0 10px;
+            overflow: auto;
+            max-height: 90vh;
+        }
+        .pdf-container {
+            margin-left: 0;
+        }
+        .latex-code {
+            white-space: pre-wrap;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 1.1em;
+        }
+        .pdf-viewer {
+            width: 100%;
+            height: 800px; /* Adjust height as needed */
+            border: none;
         }
         h1 {
             color: #2c3e50; /* Dark blue for headings */
@@ -50,67 +55,89 @@
             border-bottom: 2px solid #2c3e50;
             padding-bottom: 10px;
         }
-        .chat-input {
+        .ask-button {
+            display: block;
             width: 100%;
-            padding: 10px;
-            margin-top: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            font-size: 1.1em;
-        }
-        .chat-button {
-            width: 100%;
-            padding: 10px;
-            margin-top: 10px;
+            padding: 15px;
+            margin-top: 20px;
             background-color: #3498db; /* Blue button */
             color: white;
             border: none;
             border-radius: 5px;
             font-size: 1.1em;
             cursor: pointer;
+            text-align: center;
         }
-        .chat-button:hover {
+        .ask-button:hover {
             background-color: #2980b9; /* Darker blue on hover */
         }
-        .chat-response {
+        .response-container {
             margin-top: 20px;
             padding: 10px;
             background-color: #eef2f5; /* Light gray for responses */
             border-radius: 5px;
-            max-height: 300px;
+            max-height: 200px;
             overflow-y: auto;
         }
     </style>
 </head>
 <body>
     <div class="container">
+        <div class="latex-container">
+            <h1>LaTeX Source</h1>
+            <pre class="latex-code">\documentclass{article}
+\usepackage{amsmath}
+\title{Electric Circuits (Unit 9)}
+\author{Varun S. Khedkar}
+\date{February 28, 2025}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction to Unit 9: Electric Circuits}
+This guide covers AP Physics C: Electricity and Magnetism, Unit 9, focusing on Electric Circuits (Resistors in Series and Parallel, Kirchhoff's laws, power dissipation, internal resistance of batteries, and circuit analysis techniques). Derived from typical Unit 11 content and aligned with the style and scope of your homework, this document provides key concepts, equations, conditions of use, applications, derivations, and practice problems to prepare for a test, ensuring comprehensive coverage of all topics with equal weightage, with detailed explanations addressing harder concepts like multi-battery circuits and non-uniform resistor networks.
+
+\section{Key Concepts and Equations}
+
+\subsection{Resistors in Series and Parallel}
+Resistors control current flow in circuits, and their arrangement affects total resistance.
+\begin{itemize}
+    \item \textbf{Series Resistors:} Connected end-to-end, current is the same through each, and total resistance adds up.
+    \begin{equation}
+        R_{\text{eq}} = R_1 + R_2 + R_3 + \cdots
+    \end{equation}
+    \item \textbf{Parallel Resistors:} Connected across the same voltage, total conductance is the reciprocal sum.
+    \begin{equation}
+        \frac{1}{R_{\text{eq}}} = \frac{1}{R_1} + \frac{1}{R_2} + \frac{1}{R_3} + \cdots
+    \end{equation}
+\end{itemize}
+
+% Add more LaTeX content as needed from your physics.tex file
+\end{document}
+            </pre>
+        </div>
         <div class="pdf-container">
             <h1>Study Guide</h1>
-            <iframe class="pdf-viewer" src="electrostatics-guide.pdf" type="application/pdf"></iframe>
-        </div>
-        <div class="chat-container">
-            <h1>Ask Grok 3</h1>
-            <textarea class="chat-input" placeholder="Type your question (e.g., 'Explain line 42' or 'What does sentence 3 on page 2 mean?')" rows="4"></textarea>
-            <button class="chat-button" onclick="sendQuery()">Send</button>
-            <div class="chat-response" id="response"></div>
+            <iframe class="pdf-viewer" src="study-guide.pdf" type="application/pdf"></iframe>
+            <button class="ask-button" onclick="askGrok3()">Ask Grok 3</button>
+            <div class="response-container" id="response"></div>
         </div>
     </div>
 
     <script>
-        function sendQuery() {
-            const query = document.querySelector('.chat-input').value;
-            if (query.trim() === '') {
+        function askGrok3() {
+            const query = prompt('What would you like to ask Grok 3 about the study guide? (e.g., "Explain resistors in series")');
+            if (query && query.trim() !== '') {
+                // Open a new tab with a pre-formatted message to ask Grok 3 in this chat
+                const chatUrl = 'https://chat.grok3.xai/?query=' + encodeURIComponent(query);
+                window.open(chatUrl, '_blank');
+
+                // Show a temporary response
+                document.getElementById('response').innerHTML = 'I’ve opened a new tab to ask Grok 3 your question. Copy the response from there and paste it here, or use the pop-up if provided.';
+            } else {
                 alert('Please enter a question!');
-                return;
             }
-
-            // Open a new tab with a pre-formatted message to ask Grok 3 in this chat
-            const chatUrl = 'https://chat.grok3.xai/?query=' + encodeURIComponent(query);
-            window.open(chatUrl, '_blank');
-
-            // Clear the input and show a temporary response
-            document.querySelector('.chat-input').value = '';
-            document.getElementById('response').innerHTML = 'I’ve opened a new tab to ask Grok 3 your question. Copy the response from there and paste it here, or use the pop-up if provided.';
         }
     </script>
 </body>
